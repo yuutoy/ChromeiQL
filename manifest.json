@@ -1,13 +1,13 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "ChromeiQL",
   "version": "1.0",
   "description": "Chrome app wrapper for the GraphiQL tool",
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "service_worker": "/js/background.js",
+    "type": "module"
   },
-  "browser_action": {
+  "action": {
     "default_title": "Launch ChromeiQL",
     "default_icon": "public/chromeiql_logo.png"
   },
@@ -17,8 +17,24 @@
     "128": "public/chromeiql_logo.png"
   },
   "permissions": [
-    "http://*/",
-    "https://*/",
-    "storage"
-  ]
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }
